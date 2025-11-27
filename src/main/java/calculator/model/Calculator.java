@@ -1,6 +1,6 @@
 package calculator.model;
 
-import static calculator.message.ErrorMessage.STRING_NULL_EXCEPTION_MESSAGE;
+import static calculator.message.ErrorMessage.NUMBER_LIST_NULL_EXCEPTION_MESSAGE;
 
 import java.math.BigInteger;
 import java.util.List;
@@ -14,7 +14,7 @@ public class Calculator {
 
     public BigInteger getSum(List<String> intList) {
         if (intList.isEmpty()) {
-            throw new RuntimeException(STRING_NULL_EXCEPTION_MESSAGE.getMessage());
+            throw new RuntimeException(NUMBER_LIST_NULL_EXCEPTION_MESSAGE.getMessage());
         } else {
             intList.forEach(s -> {
                 result = result.add(new BigInteger(s));

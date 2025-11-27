@@ -1,5 +1,12 @@
 package calculator.service;
 
+import static calculator.message.ErrorMessage.SEPARATOR_NULL_EXCEPTION_MESSAGE;
+import static calculator.message.ErrorMessage.CUSTOM_EXCEPTION_MESSAGE;
+import static calculator.message.ErrorMessage.NUMBER_STR_NULL_EXCEPTION_MESSAGE;
+import static calculator.message.ErrorMessage.INVALID_EXCEPTION_MESSAGE;
+import static calculator.message.ErrorMessage.SEPARATOR_FRONT_EXCEPTION_MESSAGE;
+import static calculator.message.ErrorMessage.SEPARATOR_REAR_EXCEPTION_MESSAGE;
+
 import calculator.model.Calculator;
 
 import java.math.BigInteger;
@@ -37,7 +44,7 @@ public class CalculatorService {
      */
     private String [] sliceInput(String input) {
         if (input.isEmpty()) {
-            throw new RuntimeException("분리대상 문자열 비어있음 : " + input);
+            throw new RuntimeException(SEPARATOR_NULL_EXCEPTION_MESSAGE.getMessage(input));
         } else {
             // 맨 앞이 // 로 시작하지 않으면 잘라내지 않고 그대로 반환
             if (input.startsWith("//") && input.contains("\\n")) {
@@ -72,7 +79,7 @@ public class CalculatorService {
             }
             return separatorList;
         } else {
-            throw new RuntimeException("커스텀 구분자 점검 필요 : " + customStr);
+            throw new RuntimeException(CUSTOM_EXCEPTION_MESSAGE.getMessage(customStr));
         }
 
     }
@@ -84,7 +91,7 @@ public class CalculatorService {
      */
     private List<String> getIntArr(String intStr, Map<String, Boolean> separatorList) {
         if (intStr.isEmpty()) {
-            throw new RuntimeException("합산할 숫자 문자열 생성을 위한 문자열 공백");
+            throw new RuntimeException(NUMBER_STR_NULL_EXCEPTION_MESSAGE.getMessage());
         } else {
             List<String> intList = new ArrayList<>();
             String temp = "";
@@ -100,9 +107,9 @@ public class CalculatorService {
                     intList.add(temp);
                     temp = "";
                 } else if (ch == '-') {
-                    throw new IllegalArgumentException("연산 식에는 양수와 구분자만 필요 : " + intStr);
+                    throw new IllegalArgumentException(INVALID_EXCEPTION_MESSAGE.getMessage(intStr));
                 } else {
-                    throw new RuntimeException("구분자 검증 오류 : " + intStr + ", 유효하지 않은 구분자 : " + String.valueOf(ch));
+                    throw new RuntimeException(SEPARATOR_FRONT_EXCEPTION_MESSAGE.getMessage(intStr) + SEPARATOR_REAR_EXCEPTION_MESSAGE.getMessage(String.valueOf(ch)));
                 }
             }
             // 문자열 마지막에 구분자와 숫자 중 무엇이 나올지 알 수 없으므로 숫자가 남았을 경우 추가해주기
